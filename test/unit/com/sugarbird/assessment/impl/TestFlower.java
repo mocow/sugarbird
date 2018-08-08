@@ -79,25 +79,25 @@ public class TestFlower {
 	}
 	
 	@Test
-	public void testIsBirdFeedingAllowed_True()
+	public void testHasNectarAvaiable_True()
 	{
 		//set up
 		flower.getLiquid().reFill(10);
 		
 		//run
-		boolean status = flower.isBirdFeedingAllowed();
+		boolean status = flower.hasNectarAvaiable();
 		//Assert
 		Assert.assertEquals(true, status);		
 	}
 	
 	@Test
-	public void testIsBirdFeedingAllowed_False()
+	public void testHasNectarAvaiable_False()
 	{
 		//set up
 		flower.getLiquid().reFill(0);
 		
 		//run
-		boolean status = flower.isBirdFeedingAllowed();
+		boolean status = flower.hasNectarAvaiable();
 		//Assert
 		Assert.assertEquals(false, status);		
 	}
@@ -110,7 +110,7 @@ public class TestFlower {
 		flower.update(null,Sun.TimeEvent.ON_DAY_START);
 		
 		//run
-		flower.feeding();
+		flower.birdFeeding();
 		//Assert
 		Assert.assertEquals(Flower.State.CLOSED, flower.getState());	
 	}
@@ -123,7 +123,7 @@ public class TestFlower {
 		flower.update(null,Sun.TimeEvent.ON_DAY_START);
 		
 		//run
-		flower.feeding();
+		flower.birdFeeding();
 		//Assert
 		Assert.assertEquals(2, flower.getLiquid().getQuantity());
 		Assert.assertEquals(Flower.State.OPEN, flower.getState());	

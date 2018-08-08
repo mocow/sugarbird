@@ -70,21 +70,16 @@ public class Sugarbird extends SunObserver implements Bird {
 
 			if (observer instanceof Flower) {
 				Flower flower = (Flower) observer;
-
+				Sun.totalCounts++;
 				//visit the flower
-				if (flower.isBirdFeedingAllowed()) {
-					Sun.totalCounts++;
+				if (flower.hasNectarAvaiable()) {
 					flower.printFlowerDetails();
-					flower.feeding();
+					flower.birdFeeding();
 					acceptAction(action);
 					return;
-				} else {
+				} 
+				else {
 					flower.printFlowerDetails();
-					flower.deregister();
-					maxSize--;
-					if (maxSize == 1) {
-						return;
-					}
 				}
 			}
 		}
