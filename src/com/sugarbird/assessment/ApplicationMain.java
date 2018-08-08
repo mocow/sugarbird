@@ -3,7 +3,9 @@ package com.sugarbird.assessment;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 import java.util.Observable;
+import java.util.Observer;
 
 import com.sugarbird.assessment.impl.Flower;
 import com.sugarbird.assessment.impl.Nectar;
@@ -29,16 +31,19 @@ public class ApplicationMain {
 	{
 		//set up
 		Observable observableSun = new Sun(Sun.TimeEvent.ON_DAY_START);
-		int flowersCount = 10;
+		int flowersCount = AppProperties.getNumberOfFlowers();
+		int nectarQuantity = AppProperties.getNectarQuantity();
+		
 		for (int index = 0; index < flowersCount; index++) {
 			Liquid nectar = new Nectar();
-			nectar.reFill(10);
+			nectar.reFill(nectarQuantity);
 			Plant flower = new Flower(nectar,"FLOWER-"+index,observableSun);
 			observableSun.addObserver((Flower)flower);
 		}
+		
 		Bird sugarbird = new Sugarbird("Sugarbird",observableSun);
 		observableSun.addObserver((Sugarbird)sugarbird);
-		boolean notDone = true;
+		boolean notDone = isNectarAvailable(((Sun)observableSun).getObservers());
 		
 		//run
 		Sun sun = ((Sun)observableSun);
@@ -48,7 +53,7 @@ public class ApplicationMain {
 		{
 			event = sun.generateTimeEvent();
 			sun.processTimeEvent(event);
-			notDone = sun.getTimeEvent().isAccepted();
+			notDone = isNectarAvailable(((Sun)observableSun).getObservers());
 		}
 		// EXIT (1233) 
 		AppProperties.printObject("\n\nEXIT ("+Sun.totalCounts+")");
@@ -56,15 +61,52 @@ public class ApplicationMain {
 		
 	}
 	
+	/**
+	 * Checks if there is more nectar in any flower.
+	 * 
+	 * @return <code>True</code> if at least on flower has nectar available,
+	 *         otherwise false is returned.
+	 */
+	private boolean isNectarAvailable(List<Observer> observers) {
+		for(int i =0; i< observers.size(); i++)
+		{
+			if (observers.get(i) instanceof Flower) {
+				if (((Flower) observers.get(i)).hasNectarAvaiable()) {
+					return true;
+				} 			
+			}
+		}
+		return false;
+	}
+	
 	public static class AppProperties
 	{
 		public static String OUTPUT_FORMART= "output";
+		public static String NUMBER_OF_FLOWERS = "flowers.count";
+		public static String NECTAR_QUANTITY = "nectar.quantity";
 		
 		public static String getOutputFormat()
 		{
 			return System.getProperty(OUTPUT_FORMART, "file");
 		}
-		
+
+		public static int getNectarQuantity() {
+			String quantity = System.getProperty(NECTAR_QUANTITY, "10");
+			try {
+				return Integer.parseInt(quantity);
+			} catch (Exception ex) {
+				return 10;
+			}
+		}
+
+		public static int getNumberOfFlowers() {
+			String quantity = System.getProperty(NUMBER_OF_FLOWERS, "10");
+			try {
+				return Integer.parseInt(quantity);
+			} catch (Exception ex) {
+				return 10;
+			}
+		}		
 
 		public static void printObject(Object object)
 		{

@@ -104,8 +104,8 @@ public class Flower extends SunObserver implements Plant {
 	 * 
 	 * @return
 	 */
-	public boolean isBirdFeedingAllowed() {
-		if (!liquid.isAvailable() || State.CLOSED.equals(state)) {
+	public boolean hasNectarAvaiable() {
+		if (!liquid.isAvailable()) {
 			return false;
 		}
 		return true;
@@ -115,7 +115,7 @@ public class Flower extends SunObserver implements Plant {
 	 * Reduces the quantity of the flower's liquid. It simulates the process of
 	 * bird feeding on the flower.
 	 */
-	public void feeding() {
+	public void birdFeeding() {
 		liquid.reduceQuantity();
 		if (!liquid.isAvailable()) {
 			state = State.CLOSED;
