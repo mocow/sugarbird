@@ -96,11 +96,21 @@ public class Sun extends Observable {
 	 */
 	public TimeEvent generateTimeEvent()
 	{
-		if (Sun.eventHour == Constant._24_HOURS) {
-			Sun.eventHour = 0;
+		TimeEvent currentEvent  = TimeEvent.ON_HOUR_CHANGE;
+		if (Sun.eventHour +1 == Constant._24_HOURS) {
+			if(TimeEvent.ON_DAY_END.equals(event))
+			{
+				Sun.eventHour = 0;
+				isMidNight = false;
+			}
+			else
+			{
+				currentEvent = TimeEvent.ON_DAY_END;
+				isMidNight = true;
+				return currentEvent;
+			}
 		}
 		TimeEvent.resetTimeEvents();
-		TimeEvent currentEvent  = TimeEvent.ON_HOUR_CHANGE;;
 		if (Sun.eventHour == 0) {
 			isMidDay = false;
 			state = State.ON;
@@ -114,13 +124,17 @@ public class Sun extends Observable {
 				isMidNight = false;
 			}
 		}
-		else if ((Sun.eventHour == Constant._12_HOURS)) {
+		else if ((Sun.eventHour +1 == Constant._12_HOURS)) {
 			isMidNight = false;
 			state = State.OFF;
 			if(!isMidDay)
 			{
-				currentEvent = TimeEvent.ON_DAY_END;
 				isMidDay = true;
+			}
+			else if(TimeEvent.ON_HOUR_CHANGE.equals(event))
+			{
+				currentEvent = TimeEvent.ON_DAY_END;
+				
 			}
 			else
 			{
