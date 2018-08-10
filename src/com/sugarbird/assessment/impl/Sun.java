@@ -126,7 +126,7 @@ public class Sun extends Observable {
 		}
 		else if ((Sun.eventHour +1 == Constant._12_HOURS)) {
 			isMidNight = false;
-			state = State.OFF;
+			
 			if(!isMidDay)
 			{
 				isMidDay = true;
@@ -134,7 +134,7 @@ public class Sun extends Observable {
 			else if(TimeEvent.ON_HOUR_CHANGE.equals(event))
 			{
 				currentEvent = TimeEvent.ON_DAY_END;
-				
+				state = State.OFF;
 			}
 			else
 			{
