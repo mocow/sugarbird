@@ -26,8 +26,8 @@ public class Sun extends Observable {
 	// total count of observers
 	private int observersCount;
 
-	private boolean isMidNight;
-	private boolean isMidDay;
+	protected boolean isMidNight;
+	protected boolean isMidDay;
 	public static int totalCounts = 0;
 	State state;
 	/**
