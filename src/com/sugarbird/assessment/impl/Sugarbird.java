@@ -5,8 +5,6 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
 
-import org.hamcrest.core.IsInstanceOf;
-
 import com.sugarbird.assessment.ApplicationMain;
 import com.sugarbird.assessment.service.Bird;
 import com.sugarbird.assessment.service.SunObserver;
