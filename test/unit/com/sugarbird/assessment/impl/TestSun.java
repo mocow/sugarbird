@@ -171,10 +171,24 @@ public class TestSun {
 	}
 	
 	@Test
-	public void testGenerateTimeEvent_Hour_12()
+	public void testGenerateTimeEvent_Hour_11_HourChange()
 	{
 		// set up
-		Sun.eventHour = 12;
+		Sun.eventHour = 11;
+		//run
+		TimeEvent event = sun.generateTimeEvent();
+		//assert
+		Assert.assertEquals(TimeEvent.ON_HOUR_CHANGE, event);
+	}
+	
+	@Test
+	public void testGenerateTimeEvent_Hour_11_DayEnd()
+	{
+		// set up
+		sun = new Sun(TimeEvent.ON_HOUR_CHANGE);
+		Sun.eventHour = 11;
+		sun.isMidDay = true;
+		
 		//run
 		TimeEvent event = sun.generateTimeEvent();
 		//assert
@@ -182,16 +196,17 @@ public class TestSun {
 	}
 	
 	@Test
-	public void testGenerateTimeEvent_OnDayEnd_OnHourChnage()
+	public void testGenerateTimeEvent_Hour_11_SLEEP()
 	{
 		// set up
-		Sun.eventHour = 12;
+		sun = new Sun(TimeEvent.ON_DAY_END);
+		Sun.eventHour = 11;
+		sun.isMidDay = true;
+		
 		//run
-		TimeEvent event1 = sun.generateTimeEvent();
-		TimeEvent event2 = sun.generateTimeEvent();
+		TimeEvent event = sun.generateTimeEvent();
 		//assert
-		Assert.assertEquals(TimeEvent.ON_DAY_END, event1);
-		Assert.assertEquals(TimeEvent.ON_HOUR_CHANGE, event2);
+		Assert.assertEquals(TimeEvent.ON_HOUR_CHANGE, event);
 	}
 	
 	@Test
