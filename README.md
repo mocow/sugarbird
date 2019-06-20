@@ -4,7 +4,6 @@ The following tools are required to compile and run the application
 
 1. JDK1.7.0_80 or higher
 
-
 The application is executed by running the following class:
 
 1. com.sugarbird.assessment.ApplicationMain
